@@ -10,13 +10,26 @@ RegisterNetEvent('novarift-core:client:player:loaded', function ()
     character = Novarift.Player.GetCharacter()
 end)
 
-RegisterNetEvent('novarift-core:client:player:groups:updated', function ()
+RegisterNetEvent('novarift-core:client:player:organizations:updated', function ()
     character = Novarift.Player.GetCharacter()
 end)
 
+
+local function mapOrganizationsIntoGroups(organizations)
+
+    local groups = {}
+
+    for code, info in pairs(organizations or {}) do
+        groups[code] = info.grade
+    end
+
+    return groups
+
+end
+
 function utils.hasPlayerGotGroup(filter)
 
-    local groups = character.groups or {}
+    local groups = mapOrganizationsIntoGroups(character.organizations)
     
     local _type = type(filter)
 
